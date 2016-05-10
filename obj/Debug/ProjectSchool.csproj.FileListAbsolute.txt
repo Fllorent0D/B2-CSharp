@@ -1,0 +1,10 @@
+c:\users\flore\documents\visual studio 2015\Projects\ProjectSchool\ProjectSchool\bin\Debug\ProjectSchool.exe.config
+c:\users\flore\documents\visual studio 2015\Projects\ProjectSchool\ProjectSchool\bin\Debug\ProjectSchool.exe
+c:\users\flore\documents\visual studio 2015\Projects\ProjectSchool\ProjectSchool\bin\Debug\ProjectSchool.pdb
+c:\users\flore\documents\visual studio 2015\Projects\ProjectSchool\ProjectSchool\obj\Debug\ProjectSchool.csprojResolveAssemblyReference.cache
+c:\users\flore\documents\visual studio 2015\Projects\ProjectSchool\ProjectSchool\obj\Debug\ProjectSchool.Form1.resources
+c:\users\flore\documents\visual studio 2015\Projects\ProjectSchool\ProjectSchool\obj\Debug\ProjectSchool.Properties.Resources.resources
+c:\users\flore\documents\visual studio 2015\Projects\ProjectSchool\ProjectSchool\obj\Debug\ProjectSchool.csproj.GenerateResource.Cache
+c:\users\flore\documents\visual studio 2015\Projects\ProjectSchool\ProjectSchool\obj\Debug\ProjectSchool.exe
+c:\users\flore\documents\visual studio 2015\Projects\ProjectSchool\ProjectSchool\obj\Debug\ProjectSchool.pdb
+C:\Users\flore\Documents\Visual Studio 2015\Projects\ProjectSchool\ProjectSchool\bin\Debug\Projet-CSharp.exe.config
