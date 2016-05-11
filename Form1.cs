@@ -410,10 +410,13 @@ namespace ProjectSchool
             if(modeBox.SelectedIndex == 1)
             {
                 groupFilter.Visible = true;
+                updateFilter();
             }
             else
             {
                 groupFilter.Visible = false;
+                achatTreeView.Nodes.Clear();
+                listeCategorie.CreateTree();
             }
         }
 
@@ -436,6 +439,7 @@ namespace ProjectSchool
 
                     break;
             }
+            updateFilter();
         }
         public void updateFilter()
         {
@@ -446,14 +450,16 @@ namespace ProjectSchool
             {
                 case 2:
                     month = dateFilter.Value.Date.Month;
+                    year = dateFilter.Value.Date.Year;
+
                     break;
                 case 1:
                     year = dateFilter.Value.Date.Year;
-                    month = dateFilter.Value.Date.Month;
-
+                    
                     break;
             }
             listeCategorie.Clone(listeBilan);
+            achatTreeView.Nodes.Clear();
             listeBilan.filter(year, month);
             listeBilan.CreateTree();
         }
@@ -474,6 +480,21 @@ namespace ProjectSchool
         {
             achatTreeView.Nodes.Clear();
             listeCategorie.CreateTree();
+        }
+
+        private void dateFilter_FormatChanged(object sender, EventArgs e)
+        {
+            updateFilter();
+        }
+
+        private void dateFilter_MouseCaptureChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dateFilter_ValueChanged(object sender, EventArgs e)
+        {
+            updateFilter();
         }
     }
 }

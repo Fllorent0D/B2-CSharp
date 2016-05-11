@@ -41,9 +41,9 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.modeBox = new System.Windows.Forms.ComboBox();
             this.groupFilter = new System.Windows.Forms.GroupBox();
+            this.triCombo = new System.Windows.Forms.ComboBox();
             this.dateFilter = new System.Windows.Forms.DateTimePicker();
             this.eventLog1 = new System.Diagnostics.EventLog();
-            this.triCombo = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -181,18 +181,6 @@
             this.groupFilter.TabStop = false;
             this.groupFilter.Text = "Option tri";
             // 
-            // dateFilter
-            // 
-            this.dateFilter.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateFilter.Location = new System.Drawing.Point(94, 19);
-            this.dateFilter.Name = "dateFilter";
-            this.dateFilter.Size = new System.Drawing.Size(107, 20);
-            this.dateFilter.TabIndex = 0;
-            // 
-            // eventLog1
-            // 
-            this.eventLog1.SynchronizingObject = this;
-            // 
             // triCombo
             // 
             this.triCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -207,6 +195,21 @@
             this.triCombo.Size = new System.Drawing.Size(82, 21);
             this.triCombo.TabIndex = 1;
             this.triCombo.SelectedIndexChanged += new System.EventHandler(this.triCombo_SelectedIndexChanged);
+            // 
+            // dateFilter
+            // 
+            this.dateFilter.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateFilter.Location = new System.Drawing.Point(94, 19);
+            this.dateFilter.Name = "dateFilter";
+            this.dateFilter.Size = new System.Drawing.Size(107, 20);
+            this.dateFilter.TabIndex = 0;
+            this.dateFilter.FormatChanged += new System.EventHandler(this.dateFilter_FormatChanged);
+            this.dateFilter.ValueChanged += new System.EventHandler(this.dateFilter_ValueChanged);
+            this.dateFilter.MouseCaptureChanged += new System.EventHandler(this.dateFilter_MouseCaptureChanged);
+            // 
+            // eventLog1
+            // 
+            this.eventLog1.SynchronizingObject = this;
             // 
             // button1
             // 

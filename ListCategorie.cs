@@ -73,6 +73,7 @@ namespace ProjectSchool
         #region Clonage de la liste
         public void Clone(ListCategorie listToFill)
         {
+            listToFill.List = new List<Categorie>();
             foreach (Categorie item in this.List)
             {
                 Categorie newCategorie = new Categorie(item.Nomcategorie);
@@ -112,24 +113,36 @@ namespace ProjectSchool
         }
         private void filterChildren(int year, int month, Categorie parent)
         {
+            List<object> toremove = new List<object>();
             foreach(object item in parent.Children)
             {
                 if(item is Transaction)
                 {
                     Transaction test = item as Transaction;
+                    System.Console.WriteLine(year);
+                    System.Console.WriteLine(test.DateTransaction.Year + 2000);
+                    System.Console.WriteLine(month);
+                    System.Console.WriteLine(test.DateTransaction.Month);
+                    System.Console.WriteLine("-- ");
 
-                    if((month != 0 && test.DateTransaction.Month != month) || (year != 0 && test.DateTransaction.Year != year))
+                    if ((month != 0 && test.DateTransaction.Month != month) )
                     {
-                        parent.Children.Remove(item);
+                        toremove.Add(item);
                     }
-                    
+                    if (year != 0 && (test.DateTransaction.Year + 2000) != year)
+                    {
+                        toremove.Add(item);
+                    }
                 }
                 else if(item is Categorie)
                 {
                     filterChildren(year, month, item as Categorie);
                 }
             }
-
+            foreach(object item in toremove)
+            {
+                parent.Children.Remove(item);
+            }
         }
         #endregion
 
