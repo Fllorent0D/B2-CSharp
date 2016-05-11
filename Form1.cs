@@ -33,6 +33,13 @@ namespace ProjectSchool
             MenuItem item = new MenuItem("Ajouter une catégorie", new EventHandler(this.addItem));
             menuTree.MenuItems.Add(item);
             achatTreeView.ContextMenu = menuTree;
+            //DateTimePicker dateFilter = new DateTimePicker();
+            dateFilter.Format = DateTimePickerFormat.Custom;
+            dateFilter.CustomFormat = "MMMM yyyy";
+            dateFilter.ShowUpDown = true; // to prevent the calendar from being displayed
+            modeBox.SelectedIndex = 0;
+            modeBox.DropDownStyle = ComboBoxStyle.DropDownList;
+            modeBox.BackColor = Color.White;
 
         }
         private void addItem(object sender, EventArgs e)
@@ -394,6 +401,18 @@ namespace ProjectSchool
                 e.Node.EndEdit(false);
                 (e.Node.Tag as Categorie).Nomcategorie = e.Label;
                 
+            }
+        }
+
+        private void modeBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(modeBox.SelectedIndex == 1)
+            {
+                groupFilter.Visible = true;
+            }
+            else
+            {
+                groupFilter.Visible = false;
             }
         }
     }
