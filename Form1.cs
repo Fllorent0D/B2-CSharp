@@ -17,7 +17,7 @@ namespace ProjectSchool
     {
         private BindingList<Transaction> achats;
         private ListCategorie listeCategorie;
-
+        private ListCategorie listeBilan;
         public Form1()
         {
             InitializeComponent();
@@ -25,6 +25,9 @@ namespace ProjectSchool
             achats = new BindingList<Transaction>();
             listeCategorie = new ListCategorie();
             listeCategorie.TagTree = achatTreeView;
+
+            listeBilan = new ListCategorie();
+            listeBilan.TagTree = achatTreeView;
 
             BindingSource source = new BindingSource(achats, null);
             achatGridView.DataSource = source;
@@ -35,12 +38,10 @@ namespace ProjectSchool
             achatTreeView.ContextMenu = menuTree;
             //DateTimePicker dateFilter = new DateTimePicker();
             dateFilter.Format = DateTimePickerFormat.Custom;
-            dateFilter.CustomFormat = "MMMM yyyy";
             dateFilter.ShowUpDown = true; // to prevent the calendar from being displayed
-            modeBox.SelectedIndex = 0;
-            modeBox.DropDownStyle = ComboBoxStyle.DropDownList;
-            modeBox.BackColor = Color.White;
 
+            modeBox.SelectedIndex = 0;
+            triCombo.SelectedIndex = 0;
         }
         private void addItem(object sender, EventArgs e)
         {
@@ -414,6 +415,65 @@ namespace ProjectSchool
             {
                 groupFilter.Visible = false;
             }
+        }
+
+        private void triCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch(triCombo.SelectedIndex)
+            {
+                case 0:
+                    dateFilter.CustomFormat = " ";
+                    dateFilter.Enabled = false;
+                    break;
+                case 1:
+                    dateFilter.CustomFormat = "yyyy";
+                    dateFilter.Enabled = true;
+
+                    break;
+                case 2:
+                    dateFilter.CustomFormat = "MMMM yyyy";
+                    dateFilter.Enabled = true;
+
+                    break;
+            }
+        }
+        public void updateFilter()
+        {
+            int year = 0;
+            int month = 0;
+
+            switch (triCombo.SelectedIndex)
+            {
+                case 2:
+                    month = dateFilter.Value.Date.Month;
+                    break;
+                case 1:
+                    year = dateFilter.Value.Date.Year;
+                    month = dateFilter.Value.Date.Month;
+
+                    break;
+            }
+            listeCategorie.Clone(listeBilan);
+            listeBilan.filter(year, month);
+            listeBilan.CreateTree();
+        }
+        private void button1_Click(object sender, EventArgs e)
+        {
+            listeBilan = new ListCategorie();
+            listeBilan.List.Add(new Categorie("test"));
+            listeBilan.TagTree = achatTreeView;
+            listeBilan.CreateTree();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            achatTreeView.Nodes.Clear();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            achatTreeView.Nodes.Clear();
+            listeCategorie.CreateTree();
         }
     }
 }

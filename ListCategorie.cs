@@ -26,7 +26,7 @@ namespace ProjectSchool
 
         }
 
-
+        #region Sauvegarder la liste
         public void Save()
         {
             SaveFileDialog saveFileDialog1 = new SaveFileDialog();
@@ -41,6 +41,8 @@ namespace ProjectSchool
                 }
             }
         }
+        #endregion
+
 
         public void CreateTree()
         {
@@ -55,6 +57,7 @@ namespace ProjectSchool
             TagTree.EndUpdate();
             TagTree.ExpandAll();
         }
+
         private void loadSubCategories(List<object> children, TreeNode parent)
         {
             foreach (object node in children)
@@ -67,6 +70,68 @@ namespace ProjectSchool
                     loadSubCategories((node as Categorie).Children, newNode);
             }
         }
+        #region Clonage de la liste
+        public void Clone(ListCategorie listToFill)
+        {
+            foreach (Categorie item in this.List)
+            {
+                Categorie newCategorie = new Categorie(item.Nomcategorie);
+                listToFill.List.Add(newCategorie);
+                CloneChildren(item.Children, newCategorie.Children);
+
+            }
+        }
+        private void CloneChildren(List<object> children, List<object> newParent)
+        {
+            foreach (object node in children)
+            {
+                IBilan newItem;
+                if(node is Transaction)
+                {
+                    Transaction item = node as Transaction;
+                    newItem = new Transaction(item.Contrepartie, item.Type, item.DateTransaction, item.Somme);
+                }
+                else
+                {
+                    Categorie item = node as Categorie;
+                    newItem = new Categorie(item.Nomcategorie);
+                    CloneChildren(item.Children, (newItem as Categorie).Children);
+                }
+                newParent.Add(newItem);
+            }
+        }
+        #endregion
+
+        #region Filtre de la liste
+        public void filter(int year, int month)
+        {
+            foreach(Categorie item in List)
+            {
+                filterChildren(year, month, item);
+            }
+        }
+        private void filterChildren(int year, int month, Categorie parent)
+        {
+            foreach(object item in parent.Children)
+            {
+                if(item is Transaction)
+                {
+                    Transaction test = item as Transaction;
+
+                    if((month != 0 && test.DateTransaction.Month != month) || (year != 0 && test.DateTransaction.Year != year))
+                    {
+                        parent.Children.Remove(item);
+                    }
+                    
+                }
+                else if(item is Categorie)
+                {
+                    filterChildren(year, month, item as Categorie);
+                }
+            }
+
+        }
+        #endregion
 
     }
 }

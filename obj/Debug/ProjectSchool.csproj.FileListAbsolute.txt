@@ -7,3 +7,12 @@ C:\Users\flore\Documents\Visual Studio 2015\Projects\ProjectSchool\ProjectSchool
 C:\Users\flore\Documents\Visual Studio 2015\Projects\ProjectSchool\ProjectSchool\bin\Debug\Projet-CSharp.pdb
 C:\Users\flore\Documents\Visual Studio 2015\Projects\ProjectSchool\ProjectSchool\obj\Debug\Projet-CSharp.exe
 C:\Users\flore\Documents\Visual Studio 2015\Projects\ProjectSchool\ProjectSchool\obj\Debug\Projet-CSharp.pdb
+C:\Users\floca\Documents\Visual Studio 2015\Projects\Project-CSharp\bin\Debug\Projet-CSharp.exe.config
+C:\Users\floca\Documents\Visual Studio 2015\Projects\Project-CSharp\obj\Debug\Projet-CSharp.exe
+C:\Users\floca\Documents\Visual Studio 2015\Projects\Project-CSharp\obj\Debug\Projet-CSharp.pdb
+C:\Users\floca\Documents\Visual Studio 2015\Projects\Project-CSharp\bin\Debug\Projet-CSharp.exe
+C:\Users\floca\Documents\Visual Studio 2015\Projects\Project-CSharp\bin\Debug\Projet-CSharp.pdb
+C:\Users\floca\Documents\Visual Studio 2015\Projects\Project-CSharp\obj\Debug\ProjectSchool.csprojResolveAssemblyReference.cache
+C:\Users\floca\Documents\Visual Studio 2015\Projects\Project-CSharp\obj\Debug\ProjectSchool.Form1.resources
+C:\Users\floca\Documents\Visual Studio 2015\Projects\Project-CSharp\obj\Debug\ProjectSchool.Properties.Resources.resources
+C:\Users\floca\Documents\Visual Studio 2015\Projects\Project-CSharp\obj\Debug\ProjectSchool.csproj.GenerateResource.Cache

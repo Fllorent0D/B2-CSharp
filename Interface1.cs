@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ProjectSchool
 {
-    interface IBilan
+    public interface IBilan
     {
         double getSum();
     }

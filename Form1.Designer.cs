@@ -41,8 +41,12 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.modeBox = new System.Windows.Forms.ComboBox();
             this.groupFilter = new System.Windows.Forms.GroupBox();
-            this.eventLog1 = new System.Diagnostics.EventLog();
             this.dateFilter = new System.Windows.Forms.DateTimePicker();
+            this.eventLog1 = new System.Diagnostics.EventLog();
+            this.triCombo = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.achatGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -168,31 +172,80 @@
             // 
             // groupFilter
             // 
+            this.groupFilter.Controls.Add(this.triCombo);
             this.groupFilter.Controls.Add(this.dateFilter);
             this.groupFilter.Location = new System.Drawing.Point(157, 28);
             this.groupFilter.Name = "groupFilter";
-            this.groupFilter.Size = new System.Drawing.Size(130, 52);
+            this.groupFilter.Size = new System.Drawing.Size(207, 52);
             this.groupFilter.TabIndex = 5;
             this.groupFilter.TabStop = false;
             this.groupFilter.Text = "Option tri";
+            // 
+            // dateFilter
+            // 
+            this.dateFilter.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
+            this.dateFilter.Location = new System.Drawing.Point(94, 19);
+            this.dateFilter.Name = "dateFilter";
+            this.dateFilter.Size = new System.Drawing.Size(107, 20);
+            this.dateFilter.TabIndex = 0;
             // 
             // eventLog1
             // 
             this.eventLog1.SynchronizingObject = this;
             // 
-            // dateFilter
+            // triCombo
             // 
-            this.dateFilter.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateFilter.Location = new System.Drawing.Point(7, 19);
-            this.dateFilter.Name = "dateFilter";
-            this.dateFilter.Size = new System.Drawing.Size(117, 20);
-            this.dateFilter.TabIndex = 0;
+            this.triCombo.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.triCombo.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.triCombo.FormattingEnabled = true;
+            this.triCombo.Items.AddRange(new object[] {
+            "Tout",
+            "Année",
+            "Année mois"});
+            this.triCombo.Location = new System.Drawing.Point(6, 19);
+            this.triCombo.Name = "triCombo";
+            this.triCombo.Size = new System.Drawing.Size(82, 21);
+            this.triCombo.TabIndex = 1;
+            this.triCombo.SelectedIndexChanged += new System.EventHandler(this.triCombo_SelectedIndexChanged);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(603, 47);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 6;
+            this.button1.Text = "Create tree";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(684, 47);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 7;
+            this.button2.Text = "clear";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(522, 48);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 8;
+            this.button3.Text = "restore";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 592);
+            this.Controls.Add(this.button3);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.groupFilter);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.achatTreeView);
@@ -230,6 +283,10 @@
         private System.Windows.Forms.GroupBox groupFilter;
         private System.Windows.Forms.DateTimePicker dateFilter;
         private System.Diagnostics.EventLog eventLog1;
+        private System.Windows.Forms.ComboBox triCombo;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button3;
     }
 }
 
