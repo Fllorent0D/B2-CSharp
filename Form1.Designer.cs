@@ -47,6 +47,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.achatGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -59,11 +60,11 @@
             this.achatGridView.AllowUserToAddRows = false;
             this.achatGridView.AllowUserToDeleteRows = false;
             this.achatGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.achatGridView.Location = new System.Drawing.Point(12, 86);
+            this.achatGridView.Location = new System.Drawing.Point(12, 115);
             this.achatGridView.Name = "achatGridView";
             this.achatGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.achatGridView.ShowEditingIcon = false;
-            this.achatGridView.Size = new System.Drawing.Size(436, 494);
+            this.achatGridView.Size = new System.Drawing.Size(436, 465);
             this.achatGridView.TabIndex = 1;
             this.achatGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.achatGridView_MouseDown);
             // 
@@ -134,9 +135,9 @@
             // 
             this.achatTreeView.AllowDrop = true;
             this.achatTreeView.LabelEdit = true;
-            this.achatTreeView.Location = new System.Drawing.Point(452, 86);
+            this.achatTreeView.Location = new System.Drawing.Point(452, 115);
             this.achatTreeView.Name = "achatTreeView";
-            this.achatTreeView.Size = new System.Drawing.Size(390, 494);
+            this.achatTreeView.Size = new System.Drawing.Size(390, 465);
             this.achatTreeView.TabIndex = 3;
             this.achatTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.achatTreeView_AfterLabelEdit);
             this.achatTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.achatTreeView_ItemDrag);
@@ -172,14 +173,15 @@
             // 
             // groupFilter
             // 
+            this.groupFilter.Controls.Add(this.comboBox1);
             this.groupFilter.Controls.Add(this.triCombo);
             this.groupFilter.Controls.Add(this.dateFilter);
             this.groupFilter.Location = new System.Drawing.Point(157, 28);
             this.groupFilter.Name = "groupFilter";
-            this.groupFilter.Size = new System.Drawing.Size(207, 52);
+            this.groupFilter.Size = new System.Drawing.Size(207, 81);
             this.groupFilter.TabIndex = 5;
             this.groupFilter.TabStop = false;
-            this.groupFilter.Text = "Option tri";
+            this.groupFilter.Text = "Options de tri";
             // 
             // triCombo
             // 
@@ -241,6 +243,19 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Toutes transactions",
+            "Dépenses",
+            "Rentrées"});
+            this.comboBox1.Location = new System.Drawing.Point(7, 47);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(194, 21);
+            this.comboBox1.TabIndex = 2;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -290,6 +305,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 

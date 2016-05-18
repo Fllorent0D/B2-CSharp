@@ -18,6 +18,7 @@ namespace ProjectSchool
         private BindingList<Transaction> achats;
         private ListCategorie listeCategorie;
         private ListCategorie listeBilan;
+        public ContextMenuStrip menuTree;
         public Form1()
         {
             InitializeComponent();
@@ -32,16 +33,30 @@ namespace ProjectSchool
             BindingSource source = new BindingSource(achats, null);
             achatGridView.DataSource = source;
 
-            ContextMenu menuTree = new ContextMenu();
+            ContextMenu menuTreec = new ContextMenu();
             MenuItem item = new MenuItem("Ajouter une catégorie", new EventHandler(this.addItem));
-            menuTree.MenuItems.Add(item);
-            achatTreeView.ContextMenu = menuTree;
+            menuTreec.MenuItems.Add(item);
+            achatTreeView.ContextMenu = menuTreec;
             //DateTimePicker dateFilter = new DateTimePicker();
             dateFilter.Format = DateTimePickerFormat.Custom;
             dateFilter.ShowUpDown = true; // to prevent the calendar from being displayed
 
             modeBox.SelectedIndex = 0;
             triCombo.SelectedIndex = 0;
+
+            menuTree = new ContextMenuStrip();
+            menuTree.Opening += new CancelEventHandler(this.openContextItem);
+            ToolStripMenuItem itemAjouter = new ToolStripMenuItem("Ajouter une sous-catégorie", null, new EventHandler(this.addItem));
+            ToolStripMenuItem itemRenommer = new ToolStripMenuItem("Renommer", null, new EventHandler(this.renameItem));
+            ToolStripMenuItem itemSupprimer = new ToolStripMenuItem("Supprimer", null, new EventHandler(this.deleteItem));
+
+            menuTree.Items.Add(itemAjouter);
+            menuTree.Items.Add(itemRenommer);
+            menuTree.Items.Add(itemSupprimer);
+            listeCategorie.menuTree = menuTree;
+
+
+
         }
         private void addItem(object sender, EventArgs e)
         {
@@ -52,17 +67,7 @@ namespace ProjectSchool
             TreeNode test = new TreeNode(newCate.Nomcategorie);
             test.Tag = newCate;
 
-            ContextMenuStrip menuTree = new ContextMenuStrip();
-            menuTree.Opening += new CancelEventHandler(this.openContextItem);
-            ToolStripMenuItem itemAjouter = new ToolStripMenuItem("Ajouter une sous-catégorie", null, new EventHandler(this.addItem));
-            ToolStripMenuItem itemRenommer = new ToolStripMenuItem("Renommer", null, new EventHandler(this.renameItem));
-            ToolStripMenuItem itemSupprimer = new ToolStripMenuItem("Supprimer", null, new EventHandler(this.deleteItem));
-
-            menuTree.Items.Add(itemAjouter);
-            menuTree.Items.Add(itemRenommer);
-            menuTree.Items.Add(itemSupprimer);
-
-
+            
             test.ContextMenuStrip = menuTree;
           
             if (sender is ToolStripMenuItem)
@@ -90,7 +95,7 @@ namespace ProjectSchool
             achatTreeView.EndUpdate();
         }
 
-        private void openContextItem(object sender, CancelEventArgs e)
+        public void openContextItem(object sender, CancelEventArgs e)
         {
             ContextMenuStrip menu = sender as ContextMenuStrip;
             TreeNode usedNode = achatTreeView.GetNodeAt(achatTreeView.PointToClient(new Point(menu.Left, menu.Top)));
@@ -115,7 +120,7 @@ namespace ProjectSchool
             }
         }
 
-        private void deleteItem(object sender, EventArgs e)
+        public void deleteItem(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             ContextMenuStrip menu = item.Owner as ContextMenuStrip;
@@ -130,7 +135,7 @@ namespace ProjectSchool
                 usedNode.Remove();
             }
         }
-        private void renameItem(object sender, EventArgs e)
+        public void renameItem(object sender, EventArgs e)
         {
             ToolStripMenuItem item = (ToolStripMenuItem)sender;
             ContextMenuStrip menu = item.Owner as ContextMenuStrip;
@@ -370,6 +375,7 @@ namespace ProjectSchool
                 {
                     listeCategorie = (ListCategorie)xmlFormat.Deserialize(fStream);
                     listeCategorie.TagTree = achatTreeView;
+                    listeCategorie.menuTree = menuTree;
                     listeCategorie.CreateTree();
                 }
             }

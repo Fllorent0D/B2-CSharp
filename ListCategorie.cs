@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -19,10 +20,12 @@ namespace ProjectSchool
 
         [XmlIgnore]
         public TreeView TagTree { get; set; }
-
+        [XmlIgnore]
+        public ContextMenuStrip menuTree {get; set; }
         public ListCategorie()
         {
             List = new List<Categorie>();
+
 
         }
 
@@ -43,33 +46,40 @@ namespace ProjectSchool
         }
         #endregion
 
-
+        #region Création du TreeView
         public void CreateTree()
         {
             TagTree.BeginUpdate();
             foreach (Categorie node in List)
             {
+                
+
                 TreeNode newNode = new TreeNode(node.ToString());
                 newNode.Tag = node;
+                newNode.ContextMenuStrip = menuTree;
                 TagTree.Nodes.Add(newNode);
+
                 loadSubCategories(node.Children, newNode);
             }
             TagTree.EndUpdate();
             TagTree.ExpandAll();
         }
-
         private void loadSubCategories(List<object> children, TreeNode parent)
         {
             foreach (object node in children)
             {
                 TreeNode newNode = new TreeNode(node.ToString());
                 newNode.Tag = node;
+                newNode.ContextMenuStrip = menuTree;
+
                 parent.Nodes.Add(newNode);
 
                 if (node is Categorie)
                     loadSubCategories((node as Categorie).Children, newNode);
             }
         }
+        #endregion
+
         #region Clonage de la liste
         public void Clone(ListCategorie listToFill)
         {
@@ -145,6 +155,7 @@ namespace ProjectSchool
             }
         }
         #endregion
+
 
     }
 }
