@@ -30,11 +30,16 @@ namespace ProjectSchool
 
         public double getSum()
         {
-            throw new NotImplementedException();
+            double val = 0;
+            foreach(object item in Children)
+            {
+                val += (item as IBilan).getSum();
+            }
+            return val;
         }
         public override string ToString()
         {
-            return Nomcategorie;
+            return Nomcategorie + " | " +getSum()+" €";
         }
     }
 }

@@ -23,129 +23,34 @@ namespace ProjectSchool
         {
             InitializeComponent();
 
-            achats = new BindingList<Transaction>();
+
             listeCategorie = new ListCategorie();
             listeCategorie.TagTree = achatTreeView;
+            listeCategorie.setContextMenu(true);
+            System.Console.WriteLine(listeCategorie.TagTree.ContextMenu);
+            
 
             listeBilan = new ListCategorie();
             listeBilan.TagTree = achatTreeView;
+            listeBilan.setContextMenu(false);
 
+            //Binding avec le datagrid view
+            achats = new BindingList<Transaction>();
             BindingSource source = new BindingSource(achats, null);
             achatGridView.DataSource = source;
 
-            ContextMenu menuTreec = new ContextMenu();
-            MenuItem item = new MenuItem("Ajouter une catégorie", new EventHandler(this.addItem));
-            menuTreec.MenuItems.Add(item);
-            achatTreeView.ContextMenu = menuTreec;
+                     
+            
             //DateTimePicker dateFilter = new DateTimePicker();
             dateFilter.Format = DateTimePickerFormat.Custom;
             dateFilter.ShowUpDown = true; // to prevent the calendar from being displayed
 
+            //Init components
             modeBox.SelectedIndex = 0;
             triCombo.SelectedIndex = 0;
 
-            menuTree = new ContextMenuStrip();
-            menuTree.Opening += new CancelEventHandler(this.openContextItem);
-            ToolStripMenuItem itemAjouter = new ToolStripMenuItem("Ajouter une sous-catégorie", null, new EventHandler(this.addItem));
-            ToolStripMenuItem itemRenommer = new ToolStripMenuItem("Renommer", null, new EventHandler(this.renameItem));
-            ToolStripMenuItem itemSupprimer = new ToolStripMenuItem("Supprimer", null, new EventHandler(this.deleteItem));
-
-            menuTree.Items.Add(itemAjouter);
-            menuTree.Items.Add(itemRenommer);
-            menuTree.Items.Add(itemSupprimer);
-            listeCategorie.menuTree = menuTree;
-
-
-
         }
-        private void addItem(object sender, EventArgs e)
-        {
-          
-            achatTreeView.BeginUpdate();
-
-            Categorie newCate = new Categorie("Catégorie");
-            TreeNode test = new TreeNode(newCate.Nomcategorie);
-            test.Tag = newCate;
-
-            
-            test.ContextMenuStrip = menuTree;
-          
-            if (sender is ToolStripMenuItem)
-            {
-                
-                ToolStripMenuItem item = (ToolStripMenuItem)sender;
-                ContextMenuStrip menu = item.Owner as ContextMenuStrip;
-                TreeNode usedNode = achatTreeView.GetNodeAt(achatTreeView.PointToClient(new Point(menu.Left, menu.Top)));
-                if (usedNode != null)
-                {
-                    
-                    (usedNode.Tag as Categorie).Children.Add(test.Tag as Categorie);
-                    usedNode.Nodes.Add(test);
-                   
-                }
-                usedNode.Expand();
-            }
-            else
-            {
-                achatTreeView.Nodes.Add(test);              
-                listeCategorie.List.Add(newCate);
-
-            }
-            test.BeginEdit();
-            achatTreeView.EndUpdate();
-        }
-
-        public void openContextItem(object sender, CancelEventArgs e)
-        {
-            ContextMenuStrip menu = sender as ContextMenuStrip;
-            TreeNode usedNode = achatTreeView.GetNodeAt(achatTreeView.PointToClient(new Point(menu.Left, menu.Top)));
-            System.Console.WriteLine();
-            ToolStripMenuItem itemcat = menu.Items[0] as ToolStripMenuItem;
-            ToolStripMenuItem itemsup = menu.Items[2] as ToolStripMenuItem;
-            itemsup.Enabled = true;
-
-            itemcat.Enabled = true;
-            if (usedNode != null)
-            {
-                foreach (object obj in (usedNode.Tag as Categorie).Children)
-                {
-                    itemsup.Enabled = false;
-
-                    if (obj is Transaction)
-                    {
-                        itemcat.Enabled = false;
-                    }
-                }
-               
-            }
-        }
-
-        public void deleteItem(object sender, EventArgs e)
-        {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            ContextMenuStrip menu = item.Owner as ContextMenuStrip;
-            TreeNode usedNode = achatTreeView.GetNodeAt(achatTreeView.PointToClient(new Point(menu.Left, menu.Top)));
-            if (usedNode != null)
-            {
-                if (usedNode.Parent != null)
-                    (usedNode.Parent.Tag as Categorie).Children.Remove(usedNode.Tag);
-                else
-                    achatTreeView.Nodes.Remove(usedNode);
-
-                usedNode.Remove();
-            }
-        }
-        public void renameItem(object sender, EventArgs e)
-        {
-            ToolStripMenuItem item = (ToolStripMenuItem)sender;
-            ContextMenuStrip menu = item.Owner as ContextMenuStrip;
-            TreeNode usedNode = achatTreeView.GetNodeAt(achatTreeView.PointToClient(new Point(menu.Left, menu.Top)));
-            if (usedNode != null)
-            {
-                usedNode.BeginEdit();
-            }
-
-        }
+       
         private void Form1_Load(object sender, EventArgs e)
         {
 
@@ -185,6 +90,7 @@ namespace ProjectSchool
         private void achatGridView_MouseDown(object sender, MouseEventArgs e)
         {
             //Clique droit sur tuple
+            
             if (e.Button == MouseButtons.Right)
             {
                 DataGridView.HitTestInfo info = achatGridView.HitTest(e.X, e.Y);
@@ -202,8 +108,13 @@ namespace ProjectSchool
 
         private void achatTreeView_DragEnter(object sender, DragEventArgs e)
         {
-            e.Effect = DragDropEffects.Copy;
-            e.Effect = e.AllowedEffect;
+            if(modeBox.SelectedIndex == 0)
+            {
+                e.Effect = DragDropEffects.Copy;
+                e.Effect = e.AllowedEffect;
+
+            }
+            
         }
 
         private void achatTreeView_DragDrop(object sender, DragEventArgs e)
@@ -212,127 +123,23 @@ namespace ProjectSchool
             TreeNode nodeUsed = (TreeNode)achatTreeView.GetNodeAt(p);
 
             //Si c'est un Montant, vue de gauche
+
             if (e.Data.GetDataPresent(typeof(Transaction)))
             {
-                Transaction montantPassed = (Transaction)e.Data.GetData(typeof(Transaction));
-
-                //Si on le lache dans le vide :'(
-                if (nodeUsed == null)
-                {
-                    System.Console.WriteLine("Vide");
-                }
-                else
-                {
-                    if (nodeUsed.Tag is Transaction)
-                        nodeUsed = nodeUsed.Parent;
-
-                    TreeNode newNode = new TreeNode(montantPassed.ToString());
-                    newNode.Tag = montantPassed;
-
-                    
-                    foreach (object obj in (nodeUsed.Tag as Categorie).Children)
-                    {
-                        if (obj is Categorie)
-                        {
-                            MessageBox.Show("Vous ne pouvez pas placer une transaction a cote d'une categorie", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                            return;
-                        }
-                    }
-                    
-                    
-
-                    (nodeUsed.Tag as Categorie).Children.Add(montantPassed);
-                    nodeUsed.Nodes.Add(newNode);
-                    nodeUsed.Expand();
-                }
+                Transaction child = (Transaction)e.Data.GetData(typeof(Transaction));
+                listeCategorie.addItem(child, nodeUsed);
 
             }
             else if (e.Data.GetDataPresent(typeof(TreeNode)))
             {
-                TreeNode draggedNode = (TreeNode)e.Data.GetData(typeof(TreeNode));
-                if (!draggedNode.Equals(nodeUsed) && !ContainsNode(draggedNode, nodeUsed))
-                {
-
-                    if (nodeUsed == null)
-                    {
-                        //Si on drop à la racine
-
-                        if (draggedNode.Tag is Categorie)                                           //Une catégorie à la racine = ok
-                        {
-
-                            draggedNode.Remove();
-
-                            if (draggedNode.Parent != null)
-                            {
-                                (draggedNode.Parent.Tag as Categorie).Children.Remove(draggedNode.Tag);
-
-                            }
-
-                            achatTreeView.Nodes.Add(draggedNode);
-                            listeCategorie.List.Add(draggedNode.Tag as Categorie);
-                        }
-                    }
-                    else
-                    {
-                        //Si on drop dans un node
-                        if (nodeUsed.Tag is Transaction)                                                //Si c'est une transaction alors on ajoute dans le parent
-                            nodeUsed = nodeUsed.Parent;
-
-                        if (draggedNode.Tag is Transaction)                                              //on ne peut pas avoir de transaction a cote de categorie
-                        {
-                            foreach (object obj in (nodeUsed.Tag as Categorie).Children)
-                            {
-                                if (obj is Categorie)
-                                {
-                                    MessageBox.Show("Vous ne pouvez pas placer une transaction a cote d'une categorie", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                                    return;
-                                }
-                            }
-                        }
-                        else if (draggedNode.Tag is Categorie)                                               //Idem mais inversément
-                        {
-                            foreach (object obj in (nodeUsed.Tag as Categorie).Children)
-                            {
-                                if (obj is Transaction)
-                                {
-                                    MessageBox.Show("Vous ne pouvez pas placer une categorie a cote de transactions", "Erreur", MessageBoxButtons.OK, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-                                    return;
-                                }
-                            }
-                        }
-                        if (draggedNode.Parent != null)
-                        {
-                            if (nodeUsed == draggedNode.Parent)                                        //draggedNode n'a pas bougé
-                                return;
-
-                            (draggedNode.Parent.Tag as Categorie).Children.Remove(draggedNode.Tag);     //Retirer une catégorie qui n'est pas la racine
-                        }
-                        else
-                            listeCategorie.List.Remove(draggedNode.Tag as Categorie);               //Retirer une catégorie qui est à la racine
-
-
-
-                        (nodeUsed.Tag as Categorie).Children.Add(draggedNode.Tag);                  //Mettre à jour la liste d'enfant dans la catégorie
-
-                        draggedNode.Remove();                                                       //Mettre à jour la treeview
-                        nodeUsed.Nodes.Add(draggedNode);
-                        nodeUsed.Expand();
-
-                    }
-                } 
+                TreeNode child = (TreeNode)e.Data.GetData(typeof(TreeNode));
+                listeCategorie.addItem(child, nodeUsed);
             }
+            listeCategorie.updateLabels(listeCategorie.TagTree.Nodes);
+
+        
         }
-        private bool ContainsNode(TreeNode node1, TreeNode node2)
-        {
 
-            if (node2 == null || node2.Parent == null)
-                return false;
-            if (node2.Parent.Equals(node1))
-                return true;
-
-
-            return ContainsNode(node1, node2.Parent);
-        }
         private void sauvegarderDesDonnéesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listeCategorie.Save();
@@ -342,6 +149,7 @@ namespace ProjectSchool
         {
             Point targetPoint = achatTreeView.PointToClient(new Point(e.X, e.Y));
             TreeNode usedNode = (TreeNode)achatTreeView.GetNodeAt(targetPoint);
+
             if (usedNode == null)
                 return;
 
@@ -353,6 +161,8 @@ namespace ProjectSchool
             {
                 achatTreeView.SelectedNode = usedNode.Parent;
             }
+
+
         }
 
         private void achatTreeView_ItemDrag(object sender, ItemDragEventArgs e)
@@ -374,8 +184,11 @@ namespace ProjectSchool
                 using (Stream fStream = File.OpenRead(fichier.FileName))
                 {
                     listeCategorie = (ListCategorie)xmlFormat.Deserialize(fStream);
+                    achatTreeView.Nodes.Clear();
                     listeCategorie.TagTree = achatTreeView;
-                    listeCategorie.menuTree = menuTree;
+                    listeCategorie.setContextMenu(true);
+
+                    //listeCategorie.menuTree = menuTree;
                     listeCategorie.CreateTree();
                 }
             }
@@ -389,40 +202,59 @@ namespace ProjectSchool
             if(e.Button == MouseButtons.Right)
             {
                 ContextMenuStrip menu = new ContextMenuStrip();
-                
+              
             }
         }
 
         private void achatTreeView_AfterLabelEdit(object sender, NodeLabelEditEventArgs e)
         {
+            System.Console.WriteLine(e.Label);
             
             if (e.Label == null || e.Label.Length <= 0)
             {
                 e.CancelEdit = true;
-                MessageBox.Show("La catégorie ne peut pas être vide",
-                   "Nouvelle catégorie");
-                e.Node.BeginEdit();
             }
             else
             {
                 e.Node.EndEdit(false);
                 (e.Node.Tag as Categorie).Nomcategorie = e.Label;
-                
-            }
-        }
 
+                e.CancelEdit = true;
+
+                e.Node.Text = e.Node.Tag.ToString();
+
+
+            }
+            System.Console.WriteLine(e.Node.Tag);
+        }
+        //Change l'affichage pour le mode
         private void modeBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if(modeBox.SelectedIndex == 1)
             {
                 groupFilter.Visible = true;
+                typeFilter.SelectedIndex = 0;
                 updateFilter();
+                statusBar.BackColor = Color.OrangeRed;
+                statusLabel.Text = "Bilan";
+                achatGridView.Enabled = false;
+                foreach (DataGridViewRow row in achatGridView.Rows)
+                    row.DefaultCellStyle.BackColor = Color.LightGray;
+               
+
             }
             else
             {
+                achatGridView.Enabled = true;
+                foreach (DataGridViewRow row in achatGridView.Rows)
+                  row.DefaultCellStyle.BackColor = Color.White;
+                    
                 groupFilter.Visible = false;
                 achatTreeView.Nodes.Clear();
                 listeCategorie.CreateTree();
+                statusBar.BackColor = SystemColors.MenuHighlight;
+                statusLabel.Text = "Edition";
+
             }
         }
 
@@ -433,6 +265,7 @@ namespace ProjectSchool
                 case 0:
                     dateFilter.CustomFormat = " ";
                     dateFilter.Enabled = false;
+
                     break;
                 case 1:
                     dateFilter.CustomFormat = "yyyy";
@@ -451,7 +284,7 @@ namespace ProjectSchool
         {
             int year = 0;
             int month = 0;
-
+            int type = 0;
             switch (triCombo.SelectedIndex)
             {
                 case 2:
@@ -464,17 +297,32 @@ namespace ProjectSchool
                     
                     break;
             }
+            switch(typeFilter.SelectedIndex)
+            {
+                case 1:
+                    type = 1; //-
+                    break;
+                case 2:
+                    type = 2; //+
+                    break;
+
+            }
             listeCategorie.Clone(listeBilan);
             achatTreeView.Nodes.Clear();
-            listeBilan.filter(year, month);
+            listeBilan.filter(year, month, type);
+            listeBilan.setContextMenu(false);
             listeBilan.CreateTree();
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            listeBilan = new ListCategorie();
-            listeBilan.List.Add(new Categorie("test"));
-            listeBilan.TagTree = achatTreeView;
-            listeBilan.CreateTree();
+            Categorie nouvelle = new Categorie();
+            TreeNode nouvellet = new TreeNode();
+            listeCategorie.List.Add(nouvelle);
+            nouvellet.Tag = nouvelle;
+            listeCategorie.addItem(nouvellet, null);
+            //listeCategorie.CreateTree();
+
+            nouvellet.BeginEdit();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -499,6 +347,16 @@ namespace ProjectSchool
         }
 
         private void dateFilter_ValueChanged(object sender, EventArgs e)
+        {
+            updateFilter();
+        }
+
+        private void toolStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+        {
+
+        }
+
+        private void typeFilter_SelectedIndexChanged(object sender, EventArgs e)
         {
             updateFilter();
         }

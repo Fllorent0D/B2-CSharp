@@ -41,18 +41,19 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.modeBox = new System.Windows.Forms.ComboBox();
             this.groupFilter = new System.Windows.Forms.GroupBox();
+            this.typeFilter = new System.Windows.Forms.ComboBox();
             this.triCombo = new System.Windows.Forms.ComboBox();
             this.dateFilter = new System.Windows.Forms.DateTimePicker();
             this.eventLog1 = new System.Diagnostics.EventLog();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.statusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusBar = new System.Windows.Forms.StatusStrip();
             ((System.ComponentModel.ISupportInitialize)(this.achatGridView)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupFilter.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
+            this.statusBar.SuspendLayout();
             this.SuspendLayout();
             // 
             // achatGridView
@@ -60,11 +61,11 @@
             this.achatGridView.AllowUserToAddRows = false;
             this.achatGridView.AllowUserToDeleteRows = false;
             this.achatGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.achatGridView.Location = new System.Drawing.Point(12, 115);
+            this.achatGridView.Location = new System.Drawing.Point(13, 86);
             this.achatGridView.Name = "achatGridView";
             this.achatGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.achatGridView.ShowEditingIcon = false;
-            this.achatGridView.Size = new System.Drawing.Size(436, 465);
+            this.achatGridView.Size = new System.Drawing.Size(436, 481);
             this.achatGridView.TabIndex = 1;
             this.achatGridView.MouseDown += new System.Windows.Forms.MouseEventHandler(this.achatGridView_MouseDown);
             // 
@@ -122,8 +123,8 @@
             // utilisateursToolStripMenuItem
             // 
             this.utilisateursToolStripMenuItem.Name = "utilisateursToolStripMenuItem";
-            this.utilisateursToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
-            this.utilisateursToolStripMenuItem.Text = "Utilisateurs";
+            this.utilisateursToolStripMenuItem.Size = new System.Drawing.Size(133, 22);
+            this.utilisateursToolStripMenuItem.Text = "Paramètres";
             // 
             // aProposToolStripMenuItem
             // 
@@ -135,13 +136,12 @@
             // 
             this.achatTreeView.AllowDrop = true;
             this.achatTreeView.LabelEdit = true;
-            this.achatTreeView.Location = new System.Drawing.Point(452, 115);
+            this.achatTreeView.Location = new System.Drawing.Point(455, 86);
             this.achatTreeView.Name = "achatTreeView";
-            this.achatTreeView.Size = new System.Drawing.Size(390, 465);
+            this.achatTreeView.Size = new System.Drawing.Size(390, 481);
             this.achatTreeView.TabIndex = 3;
             this.achatTreeView.AfterLabelEdit += new System.Windows.Forms.NodeLabelEditEventHandler(this.achatTreeView_AfterLabelEdit);
             this.achatTreeView.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.achatTreeView_ItemDrag);
-            this.achatTreeView.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.achatTreeView_NodeMouseClick);
             this.achatTreeView.DragDrop += new System.Windows.Forms.DragEventHandler(this.achatTreeView_DragDrop);
             this.achatTreeView.DragEnter += new System.Windows.Forms.DragEventHandler(this.achatTreeView_DragEnter);
             this.achatTreeView.DragOver += new System.Windows.Forms.DragEventHandler(this.achatTreeView_DragOver);
@@ -173,15 +173,29 @@
             // 
             // groupFilter
             // 
-            this.groupFilter.Controls.Add(this.comboBox1);
+            this.groupFilter.Controls.Add(this.typeFilter);
             this.groupFilter.Controls.Add(this.triCombo);
             this.groupFilter.Controls.Add(this.dateFilter);
             this.groupFilter.Location = new System.Drawing.Point(157, 28);
             this.groupFilter.Name = "groupFilter";
-            this.groupFilter.Size = new System.Drawing.Size(207, 81);
+            this.groupFilter.Size = new System.Drawing.Size(330, 52);
             this.groupFilter.TabIndex = 5;
             this.groupFilter.TabStop = false;
             this.groupFilter.Text = "Options de tri";
+            // 
+            // typeFilter
+            // 
+            this.typeFilter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.typeFilter.FormattingEnabled = true;
+            this.typeFilter.Items.AddRange(new object[] {
+            "Toutes transactions",
+            "Dépenses",
+            "Rentrées"});
+            this.typeFilter.Location = new System.Drawing.Point(207, 19);
+            this.typeFilter.Name = "typeFilter";
+            this.typeFilter.Size = new System.Drawing.Size(117, 21);
+            this.typeFilter.TabIndex = 2;
+            this.typeFilter.SelectedIndexChanged += new System.EventHandler(this.typeFilter_SelectedIndexChanged);
             // 
             // triCombo
             // 
@@ -215,54 +229,39 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(603, 47);
+            this.button1.Location = new System.Drawing.Point(737, 45);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.Size = new System.Drawing.Size(108, 23);
             this.button1.TabIndex = 6;
-            this.button1.Text = "Create tree";
+            this.button1.Text = "Nouvelle catégorie";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // button2
+            // statusLabel
             // 
-            this.button2.Location = new System.Drawing.Point(684, 47);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 7;
-            this.button2.Text = "clear";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.statusLabel.ForeColor = System.Drawing.SystemColors.Window;
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(66, 17);
+            this.statusLabel.Text = "statusLabel";
             // 
-            // button3
+            // statusBar
             // 
-            this.button3.Location = new System.Drawing.Point(522, 48);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
-            this.button3.TabIndex = 8;
-            this.button3.Text = "restore";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Toutes transactions",
-            "Dépenses",
-            "Rentrées"});
-            this.comboBox1.Location = new System.Drawing.Point(7, 47);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(194, 21);
-            this.comboBox1.TabIndex = 2;
+            this.statusBar.BackColor = System.Drawing.SystemColors.MenuHighlight;
+            this.statusBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.statusLabel});
+            this.statusBar.Location = new System.Drawing.Point(0, 570);
+            this.statusBar.Name = "statusBar";
+            this.statusBar.Size = new System.Drawing.Size(854, 22);
+            this.statusBar.SizingGrip = false;
+            this.statusBar.TabIndex = 9;
+            this.statusBar.Text = "statusStrip1";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(854, 592);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.statusBar);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupFilter);
             this.Controls.Add(this.groupBox1);
@@ -280,6 +279,8 @@
             this.groupBox1.ResumeLayout(false);
             this.groupFilter.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).EndInit();
+            this.statusBar.ResumeLayout(false);
+            this.statusBar.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -302,10 +303,10 @@
         private System.Windows.Forms.DateTimePicker dateFilter;
         private System.Diagnostics.EventLog eventLog1;
         private System.Windows.Forms.ComboBox triCombo;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox typeFilter;
+        private System.Windows.Forms.StatusStrip statusBar;
+        private System.Windows.Forms.ToolStripStatusLabel statusLabel;
     }
 }
 

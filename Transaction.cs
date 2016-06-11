@@ -27,11 +27,11 @@ namespace ProjectSchool
         }
         public double getSum()
         {
-            throw new NotImplementedException();
+            return Somme;
         }
         public override string ToString()
         {
-            return Contrepartie + " | " + Somme;
+            return Contrepartie + " | " + Somme +" €";
         }
     }
 }
